@@ -1,9 +1,11 @@
 package com.ivanshilyaev.kontur.controller;
 
+import com.ivanshilyaev.kontur.dto.CatStatisticsDto;
 import com.ivanshilyaev.kontur.entity.Cat;
 import com.ivanshilyaev.kontur.service.CatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +26,10 @@ public class CatController {
     @GetMapping("/hungry")
     public List<Cat> findHungryCats() {
         return catService.findHungryCats();
+    }
+
+    @GetMapping("/{id}/statistics")
+    public List<CatStatisticsDto> statistics(@PathVariable Long id) {
+        return catService.getCatStatistics(id);
     }
 }
