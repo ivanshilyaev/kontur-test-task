@@ -18,6 +18,6 @@ public class CatController {
 
     @GetMapping("/hungry")
     public List<Cat> findHungryCats() {
-        return catRepository.findAllHungryCats();
+        return catRepository.findHungryCats();
     }
 }

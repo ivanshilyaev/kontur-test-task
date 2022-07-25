@@ -1,8 +1,8 @@
 package com.ivanshilyaev.kontur.controller;
 
-import com.ivanshilyaev.kontur.entity.CatVolunteer;
+import com.ivanshilyaev.kontur.entity.FeedStatistics;
 import com.ivanshilyaev.kontur.repository.CatRepository;
-import com.ivanshilyaev.kontur.repository.CatVolunteerRepository;
+import com.ivanshilyaev.kontur.repository.FeedStatisticsRepository;
 import com.ivanshilyaev.kontur.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,17 +22,17 @@ public class VolunteerController {
 
     private final VolunteerRepository volunteerRepository;
 
-    private final CatVolunteerRepository catVolunteerRepository;
+    private final FeedStatisticsRepository feedStatisticsRepository;
 
     @PostMapping("/{volunteerId}/feed/{catId}")
     public void feed(@PathVariable Long volunteerId, @PathVariable Long catId) {
-        if (catVolunteerRepository.getLastFeedTime(catId)
+        if (feedStatisticsRepository.getLastFeedTime(catId)
             .isBefore(LocalDateTime.now().minus(4, ChronoUnit.HOURS))) {
-            CatVolunteer catVolunteer = new CatVolunteer();
-            catVolunteer.setCat(catRepository.findById(catId).orElse(null));
-            catVolunteer.setVolunteer(volunteerRepository.findById(volunteerId).orElse(null));
-            catVolunteer.setFeedTime(LocalDateTime.now());
-            catVolunteerRepository.save(catVolunteer);
+            FeedStatistics feedStatistics = new FeedStatistics();
+            feedStatistics.setCat(catRepository.findById(catId).orElse(null));
+            feedStatistics.setVolunteer(volunteerRepository.findById(volunteerId).orElse(null));
+            feedStatistics.setFeedTime(LocalDateTime.now());
+            feedStatisticsRepository.save(feedStatistics);
         }
     }
 }

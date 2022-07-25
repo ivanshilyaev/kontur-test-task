@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface CatRepository extends JpaRepository<Cat, Long> {
 
-    @Query(value = "select * from cat join cat_volunteer on cat.id = cat_volunteer.cat_id where" +
-        " cat_volunteer.feed_time < (now() - cast ('4 hours' as interval))",
-    nativeQuery = true)
-    List<Cat> findAllHungryCats();
+    @Query(value = "select * from cats join feed_statistics on cats.id = feed_statistics.cat_id " +
+        "where feed_statistics.feed_time < (now() - cast ('4 hours' as interval))", nativeQuery = true)
+    List<Cat> findHungryCats();
 }
