@@ -2,6 +2,8 @@ INSERT INTO cats(name)
 VALUES ('Barsik');
 INSERT INTO cats(name)
 VALUES ('Sima');
+INSERT INTO cats(name)
+VALUES ('Mursik');
 
 INSERT INTO volunteers(name)
 VALUES ('Ivan');

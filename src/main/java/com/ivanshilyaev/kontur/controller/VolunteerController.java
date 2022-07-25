@@ -1,38 +1,30 @@
 package com.ivanshilyaev.kontur.controller;
 
-import com.ivanshilyaev.kontur.entity.FeedStatistics;
-import com.ivanshilyaev.kontur.repository.CatRepository;
-import com.ivanshilyaev.kontur.repository.FeedStatisticsRepository;
-import com.ivanshilyaev.kontur.repository.VolunteerRepository;
+import com.ivanshilyaev.kontur.entity.Volunteer;
+import com.ivanshilyaev.kontur.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/volunteers")
 @RequiredArgsConstructor
 public class VolunteerController {
 
-    private final CatRepository catRepository;
+    private final VolunteerService volunteerService;
 
-    private final VolunteerRepository volunteerRepository;
-
-    private final FeedStatisticsRepository feedStatisticsRepository;
+    @GetMapping
+    public List<Volunteer> findAllVolunteers() {
+        return volunteerService.findAllVolunteers();
+    }
 
     @PostMapping("/{volunteerId}/feed/{catId}")
-    public void feed(@PathVariable Long volunteerId, @PathVariable Long catId) {
-        if (feedStatisticsRepository.getLastFeedTime(catId)
-            .isBefore(LocalDateTime.now().minus(4, ChronoUnit.HOURS))) {
-            FeedStatistics feedStatistics = new FeedStatistics();
-            feedStatistics.setCat(catRepository.findById(catId).orElse(null));
-            feedStatistics.setVolunteer(volunteerRepository.findById(volunteerId).orElse(null));
-            feedStatistics.setFeedTime(LocalDateTime.now());
-            feedStatisticsRepository.save(feedStatistics);
-        }
+    public void feedCat(@PathVariable Long volunteerId, @PathVariable Long catId) {
+        volunteerService.feedCat(volunteerId, catId);
     }
 }
