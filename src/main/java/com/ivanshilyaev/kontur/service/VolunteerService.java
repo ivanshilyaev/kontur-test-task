@@ -38,4 +38,8 @@ public class VolunteerService {
             feedStatisticsRepository.save(feedStatistics);
         }
     }
+
+    public Integer catsFedInLastWeek(Long id) {
+        return feedStatisticsRepository.catsFedInLastWeek(id);
+    }
 }

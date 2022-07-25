@@ -14,4 +14,8 @@ public interface FeedStatisticsRepository extends JpaRepository<FeedStatistics, 
     LocalDateTime getLastFeedTime(Long catId);
 
     List<FeedStatistics> findAllByCat(Cat cat);
+
+    @Query(value = "select count(distinct cat_id) from feed_statistics " +
+        "where volunteer_id = ? and feed_time > (now() - cast ('1 week' as interval));", nativeQuery = true)
+    Integer catsFedInLastWeek(Long volunteerId);
 }

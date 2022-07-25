@@ -27,4 +27,9 @@ public class VolunteerController {
     public void feedCat(@PathVariable Long volunteerId, @PathVariable Long catId) {
         volunteerService.feedCat(volunteerId, catId);
     }
+
+    @GetMapping("/{id}/statistics")
+    public Integer catsFedInLastWeek(@PathVariable Long id) {
+        return volunteerService.catsFedInLastWeek(id);
+    }
 }
